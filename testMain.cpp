@@ -118,7 +118,7 @@ int main()
 				break;
 
 			case 3:
-				cout<<"Recherche simple de parcours : "<<endl;
+			/*	cout<<"Recherche simple de parcours : "<<endl;
 				cout<<"Entrez la ville de départ : ";
 				scanf("%s",villeDepart);
 				cout<<endl<<"Entrez la ville d'arrivée : ";
@@ -126,6 +126,12 @@ int main()
 				cout<<endl;
 				catalogue.RechercheSimple(villeDepart,villeArrivee);
 				cout<<endl;
+				*/
+				
+				ifstream test;
+				test.open("test.txt");
+
+				catalogue.Lire(test, ' ', "Ambert", "Paris", 0, 10);
 				break;
 			case 4:
 				cout<<"Recherche complexe de parcours : "<<endl;

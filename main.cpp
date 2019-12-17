@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <cstring>
 
 #include "Trajet.h"
@@ -19,7 +20,9 @@ int main()
 	char moyenTransport[100]; // stocke le moyen de transport rentré par l'utilisateur
 	char confirmationSuiteTrajet[50]; // permet d'enchaîner plusieurs trajets simples dans le cas de la saisie d'un trajet composé
 	Trajet** trajetRentres=new Trajet*[1]; // stocke les trajets saisis (par défaut le tableau est de taille 1)
-
+	ifstream test;
+	char ville[] = "";
+	char ville2[] = "Lyon";
 	while(1)
 	{
 		choixMenu=0;
@@ -115,7 +118,7 @@ int main()
 				break;
 
 			case 3:
-				cout<<endl<<"Recherche simple de parcours : \n\n";
+				/*cout<<endl<<"Recherche simple de parcours : \n\n";
 				cout<<"Entrez la ville de départ : ";
 				scanf("%s",villeDepart);
 				cout<<"Entrez la ville d'arrivée : ";
@@ -123,6 +126,12 @@ int main()
 				cout<<endl;
 				catalogue.RechercheSimple(villeDepart,villeArrivee);
 				cout<<endl;
+				*/
+				
+				test.open("test.txt");
+				
+
+				catalogue.Lire(test,' ',ville ,ville2 , 0, 1);
 				break;
 
 			case 4:
@@ -135,12 +144,16 @@ int main()
 				catalogue.RechercheAvancee(villeDepart,villeArrivee);
 				cout<<endl;
 				break;
+
 				
 			case 5:
 				// fin du programme, on libère la zone mémoire utilisée
 				delete[] trajetRentres;
 				return 0;
 				break;
+
+			
+
 		}
 
 	}

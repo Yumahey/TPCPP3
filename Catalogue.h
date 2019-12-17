@@ -12,7 +12,8 @@
 #include "Trajet.h"
 #include "TrajetSimple.h"
 #include "TrajetCompose.h"
-
+#include <iostream>
+#include <fstream>
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
@@ -50,6 +51,7 @@ public:
 	void RechercheRecursive(char* departInitial,char* departActuel,char* arriveeFinale, int* tableTrajetParcouru, int profondeur) const;
 	// Mode d'emploi : Méthode utilisée dans RechercheAvancee qui permet de parcourir en profondeur les trajets pour trouver ceux correspondant à la recherche
 	//
+	void Lire( std::ifstream & flux,char Typetraj, char* depart, char* arrivee,int indiceD,int indiceF);
 
 //------------------------------------------------- Surcharge d'opérateurs
 

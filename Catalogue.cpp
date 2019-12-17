@@ -6,6 +6,7 @@
 using namespace std;
 #include <iostream>
 #include <cstring>
+#include  <fstream>
 //------------------------------------------------------ Include personnel
 #include "Catalogue.h"
 #include "Trajet.h"
@@ -17,6 +18,117 @@ using namespace std;
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
+
+
+void Catalogue::Lire(ifstream & fic, char typeTraj, char* depart,  char* arrivee, int indiceD, int indiceF) {
+
+	char carlu[30];
+	/*for (int i = 0; i < 10; ++i) {
+		fic.getline(carlu, 30, '|');
+		cout << carlu << endl;
+	}
+	*/
+
+	if (fic) {
+		char SouC;
+		int nbSection;
+		int numLigneCourante = 0;
+
+		while (1) {
+			
+			fic >> SouC;
+			char departC[30];
+			char arriveeC[30];
+			char espace[1];
+			char mt[30];
+			char nbTrajet;
+			++numLigneCourante;
+
+			if (SouC == 'S') {
+				
+
+				if (typeTraj == 'S' || typeTraj == ' ') {
+					fic.getline(espace, 1, ' ');
+					fic.getline(departC, 30, '|');
+					fic.getline(arriveeC, 30, '|');
+					fic.getline(mt, 30, '\n');
+
+					if ((strcmp(depart, "")==0 && (strcmp(arrivee, "") == 0)) || (strcmp(depart, departC) == 0 && strcmp(arrivee, arriveeC)==0)|| (strcmp(depart, departC) == 0 && strcmp(arrivee, "") == 0)|| (strcmp(depart, "") == 0 && strcmp(arrivee, arriveeC) == 0)) {
+
+						if ((indiceD == -1 && indiceF == -1) || (numLigneCourante >= indiceD && numLigneCourante <= indiceF)) {
+							TrajetSimple* trajetAjout=new TrajetSimple(departC, arriveeC, mt);
+							this->Ajouter(trajetAjout);
+
+						}
+					}
+
+				}
+
+			
+
+			}
+
+			/*if (SouC == 'C') {
+				
+				if (typeTraj == 'C' || typeTraj == ' ') {
+					fic >> nbTrajet;
+					fic.getline(espace, 1, ' ');
+					for (int i = 0;i < nbTrajet - '0';i++) {
+					
+						fic.getline(departC, 30, '|');
+						fic.getline(arriveeC, 30, '|');
+						fic.getline(mt, 30, '\n');
+						TrajetSimple* trajetAjout = new TrajetSimple(departC, arriveeC, mt);
+ 
+						if ((strcmp(depart, "") == 0 && (strcmp(arrivee, "") == 0)) || (strcmp(depart, departC) == 0 && strcmp(arrivee, arriveeC) == 0) || (strcmp(depart, departC) == 0 && strcmp(arrivee, "") == 0) || (strcmp(depart, "") == 0 && strcmp(arrivee, arriveeC) == 0)) {
+							if ((indiceD == -1 && indiceF == -1) || (numLigneCourante >= indiceD && numLigneCourante <= indiceF)) {
+								TrajetSimple* trajetAjout = new TrajetSimple(departC, arriveeC, mt);
+								this->Ajouter(trajetAjout);
+
+							}
+						}
+
+					}
+
+				}
+
+
+			}
+			*/
+
+			
+
+			if (fic.eof()) {
+				break;
+			}
+
+
+			/*else {
+				fic >> nbSection;
+				Trajet** listeTraj = new Trajet * [nbSection];
+				for (int i = 0; i < nbSection; ++i) {
+					fic >> depart;
+					fic >> arrivee;
+					fic >> mt;
+
+
+
+					listeTraj[i] = new TS(depart, blablabla);
+
+				}
+
+
+			}*/
+
+		}
+	}
+	else {
+		std::cerr << "Erreur d'ouverture du fichier "<<std::endl;
+	}
+
+	fic.close();
+
+}
 
 int Catalogue::Ajouter(Trajet* unTrajet) {
 	if(this->nbTrajetsAct==this->nbTrajetsMax) // vérifie si la liste a besoin d'être agrandie
