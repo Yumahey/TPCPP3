@@ -8,17 +8,19 @@
 
 using namespace std;
 
+Catalogue catalogue;
+int choixMenu=0; // stocke le choix de l'utilisateur
+int valeurRetour=0; // permet de vérifier que l'utilisateur a bien rentré un chiffre valide
+int nbTrajetRentre = 0; // permet de connaître le nombre de trajets simples saisis en une seule fois
+char villeDepart[100]; // stocke la ville de départ rentrée par l'utilisateur
+char villeArrivee[100]; // stocke la ville d'arrivée rentrée par l'utilisateur
+char moyenTransport[100]; // stocke le moyen de transport rentré par l'utilisateur
+char confirmationSuiteTrajet[50]; // permet d'enchaîner plusieurs trajets simples dans le cas de la saisie d'un trajet composé
+TrajetSimple* trajetRentres; // stocke les trajets simples saisis
+
 int main()
 {
-	Catalogue catalogue;
-	int choixMenu=0; // stocke le choix de l'utilisateur
-	int valeurRetour=0; // permet de vérifier que l'utilisateur a bien rentré un chiffre valide
-	int nbTrajetRentre = 0; // permet de connaître le nombre de trajets simples saisis en une seule fois
-	char villeDepart[100]; // stocke la ville de départ rentrée par l'utilisateur
-	char villeArrivee[100]; // stocke la ville d'arrivée rentrée par l'utilisateur
-	char moyenTransport[100]; // stocke le moyen de transport rentré par l'utilisateur
-	char confirmationSuiteTrajet[50]; // permet d'enchaîner plusieurs trajets simples dans le cas de la saisie d'un trajet composé
-	Trajet** trajetRentres=new Trajet*[1]; // stocke les trajets saisis (par défaut le tableau est de taille 1)
+	trajetRentres = new TrajetSimple[1]; // par défaut le tableau est de taille 1
 
 	while(1)
 	{
@@ -48,7 +50,6 @@ int main()
 				catalogue.AfficherCatalogue();
 				cout<<endl;
 				break;
-
 			case 2:
 				nbTrajetRentre=0;
 				cout<<"Entrez la ville de départ"<<endl;
@@ -63,7 +64,7 @@ int main()
 
 				++nbTrajetRentre;
 				// on copie le trajet dans le tableau
-				trajetRentres[nbTrajetRentre-1]=new TrajetSimple(villeDepart,villeArrivee,moyenTransport);
+				trajetRentres[nbTrajetRentre-1]= TrajetSimple(villeDepart,villeArrivee,moyenTransport);
 
 				cout<<"Le trajet a-t-il une suite ?\n\toui\n\tnon"<<endl;
 				scanf("%s",confirmationSuiteTrajet);
@@ -83,14 +84,14 @@ int main()
 
 					++nbTrajetRentre;
 					// on agrandit le tableau de trajet
-					Trajet** tableauCopie = new Trajet*[nbTrajetRentre];
+					TrajetSimple* tableauCopie = new TrajetSimple[nbTrajetRentre];
 					for(int i=0;i<nbTrajetRentre-1;i++)
 					{
 						tableauCopie[i]=trajetRentres[i];
 					}
 					delete[] trajetRentres;
 					trajetRentres = tableauCopie;
-					trajetRentres[nbTrajetRentre-1]= new TrajetSimple(villeDepart,villeArrivee,moyenTransport);
+					trajetRentres[nbTrajetRentre-1]= TrajetSimple(villeDepart,villeArrivee,moyenTransport);
 
 
 					cout<<"Le trajet a-t-il une suite ?\n\toui\n\tnon"<<endl;
@@ -100,7 +101,9 @@ int main()
 
 				if(nbTrajetRentre==1) //trajet simple
 				{
-					catalogue.Ajouter(trajetRentres[0]);
+					// on alloue une zone mémoire pour stocker le trajet
+					Trajet* ptr_ts = new TrajetSimple(trajetRentres[0].getVilleDepart(),trajetRentres[0].getVilleArrivee(),trajetRentres[0].getTransport());
+					catalogue.Ajouter(ptr_ts);
 				}
 				else //trajet composé
 				{
@@ -110,21 +113,20 @@ int main()
 
 				// réinitialisation pour la prochaine saisie
 				delete[] trajetRentres;
-				trajetRentres = new Trajet*[1];
+				trajetRentres = new TrajetSimple[1];
 
 				break;
 
 			case 3:
-				cout<<endl<<"Recherche simple de parcours : \n\n";
+				cout<<"Recherche simple de parcours : "<<endl;
 				cout<<"Entrez la ville de départ : ";
 				scanf("%s",villeDepart);
-				cout<<"Entrez la ville d'arrivée : ";
+				cout<<endl<<"Entrez la ville d'arrivée : ";
 				scanf("%s",villeArrivee);
 				cout<<endl;
 				catalogue.RechercheSimple(villeDepart,villeArrivee);
 				cout<<endl;
 				break;
-
 			case 4:
 				cout<<"Recherche complexe de parcours : "<<endl;
 				cout<<"Entrez la ville de départ : ";
@@ -135,7 +137,6 @@ int main()
 				catalogue.RechercheAvancee(villeDepart,villeArrivee);
 				cout<<endl;
 				break;
-				
 			case 5:
 				// fin du programme, on libère la zone mémoire utilisée
 				delete[] trajetRentres;

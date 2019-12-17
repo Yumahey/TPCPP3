@@ -1,26 +1,24 @@
 /*************************************************************************
-                           Trajet  -  classe représentant un trajet
-                           par ses villes de départ et d'arrivée
+                           Trajet  -  description
                              -------------------
-    début                : 19/11/2019
-    copyright            : (C) 2019 par NEISS Emma et DUPONT Yann
-    e-mail               : emma.neiss@insa-lyon.fr  yann.dupont@insa-lyon.fr
+    début                : novembre 2019
+    copyright            : (C) 2019 par Killian OECHSLIN et Thomas MIGNOT
 *************************************************************************/
 
-//---------- Interface de la classe Trajet (fichier Trajet.h) ------------
+//---------- Interface de la classe <Trajet> (fichier Trajet.h) ----------------
 #if ! defined ( TRAJET_H )
 #define TRAJET_H
+//--------------------------------------------------- Interfaces utilisées
 
 //------------------------------------------------------------- Constantes
-#define MAX_CHAR_VILLE 31 // 30 + \0
 
 //------------------------------------------------------------------ Types
-typedef char* Ville;
-typedef char* MT;
 
 //------------------------------------------------------------------------
-// Rôle de la classe Trajet
-// Définir un trajet par ses villes de départ et d'arrivée
+// Rôle de la classe <Trajet>
+// Classe purement abstraite et classe mère de TrajetSimple et TrajetCompose,
+// permettant de regrouper les caractéristiques communes de ces 2 classes
+//
 //------------------------------------------------------------------------
 
 class Trajet
@@ -30,69 +28,41 @@ class Trajet
 public:
 //----------------------------------------------------- Méthodes publiques
 
+    virtual void AfficherTrajet() const=0;
+    // Mode d'emploi : permet d'afficher les caractéristiques propres à un trajet (Simple ou Composé)
+    //
+    // Contrat : doit être redéfinie dans les classes filles TrajetSimple et TrajetCompose
 
-    Ville getDepart() const;
-    // Mode d'emploi :
-    // Renvoie la ville de départ du trajet appelant
-    // Contrat :
-    // Le pointeur renvoyé pointe directement sur la zone
-    // mémoire utilisée par l'attribut depart de l'objet
+    char* getVilleDepart() const;
+    // Mode d'emploi : renvoie la ville de départ du trajet
+    //
 
-    Ville getArrivee() const;
-    // Mode d'emploi :
-    // Renvoie la vlile d'arrivée du trajet appelant
-    // Contrat :
-    // Le pointeur renvoyé pointe directement sur la zone
-    // mémoire utilisée par l'attribut depart de l'objet
+    char* getVilleArrivee() const;
+    // Mode d'emploi : renvoie la ville d'arrivée du trajet
+    //
 
-    virtual void Afficher() const;
-    // Mode d'emploi :
-    // Affiche les caractéristiques du trajet appelant
-    // Contrat :
-    // Les caractéristiques sont affichées sur la sortie
-    // standard (cout)
+//------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------- Constructeurs - destructeur
-    Trajet ( const Trajet & unTrajet );
-    // Mode d'emploi (constructeur de copie) :
-    // Construit une copie du trajet passé en paramètre
-    // Contrat :
-    // Les caractéristiques char* sont dupliquées dans une zone mémoire
-    // allouée dynamiquement propre au nouvel objet
 
-    Trajet ( const Ville & villeDepart, const Ville & villeArrivee);
-    // Mode d'emploi :
-    // Crée un trajet ayant comme villes de départ et d'arrivée
-    // les paramètres formels villeDepart et villeArrivee
-    // Contrat :
-    // Les villes sont copiées dans une zone mémoire propre à
-    // l'objet créé
-
-    Trajet();
-    // Mode d'emploi :
-    // Instancie un trajet dont les villes de départ et d'arrivée
-    // sont ""
-    // Contrat :
-    // La taille maximale des noms des villes du trajet est
-    // définie par la constante MAX_CHAR_VILLE
-
+    Trajet ( const char* depart, const char* arrivee );
+    // Mode d'emploi : initialise la ville de départ et d'arrivée grâce aux paramètres données
+    //
 
     virtual ~Trajet ( );
-    // Mode d'emploi :
-    // Détruit le trajet appelant
-    // Contrat :
-    // Libère l'espace mémoire alloué dynamiquement pour les villes de
-    // départ et d'arrivée
+    // Mode d'emploi : libère la mémoire utilisée par villeDepart et villeArrivee
+    //
 
 //------------------------------------------------------------------ PRIVE
 
 protected:
+//----------------------------------------------------- Méthodes protégées
+
 //----------------------------------------------------- Attributs protégés
-
-    Ville depart;
-    Ville arrivee;
-
+    char* villeDepart; // ville de départ du trajet
+    char* villeArrivee; // ville d'arrivée du trajet
 };
 
-#endif // TRAJET_H
+//-------------------------------- Autres définitions dépendantes de <Trajet>
 
+#endif // TRAJET_H

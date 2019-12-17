@@ -1,24 +1,20 @@
+CC = g++
+CFLAGS = -ansi -pedantic -Wall -std=c++11 -g #-DMAP
 
-OBJ=Trajet.o TS.o TC.o Catalogue.o main.o
-EXEC=TP2
-FLAGS=-g -o0 -ansi-pedantic–Wall –std=c++11
-DEFINES=
+MAIN = main
+SRCS = Trajet.cpp TrajetSimple.cpp TrajetCompose.cpp main.cpp Catalogue.cpp
+OBJS = $(SRCS:.cpp=.o)
 
-.PHONY : clear
-
-clear :
-	rm $(OBJ) $(EXEC)
-
-run : $(EXEC)
-	./TP2
+$(MAIN) : $(OBJS)
+	$(CC) $(CFLAGS) $^ -o $@
 
 %.o : %.cpp %.h
-	g++ -c $(DEFINES) $<
-	
-$(EXEC) : $(OBJ)
-	g++ $(FLAGS) $(DEFINES) -o $(EXEC) $(OBJ)
+	$(CC) $(CFLAGS) -c $^
 
-build_MAP: DEFINES = -DMAP
+%.o : %.cpp
+	$(CC) $(CFLAGS) -c $^
 
-build_MAP : $(EXEC)
-	
+.PHONY : launch
+
+launch :
+	./main

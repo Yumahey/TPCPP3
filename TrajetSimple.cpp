@@ -1,4 +1,4 @@
-//---------- Réalisation de la classe <Trajet> (fichier Trajet.cpp) ------------
+//---------- Réalisation de la classe <TrajetSimple> (fichier TrajetSimple.cpp) ------------
 
 //---------------------------------------------------------------- INCLUDE
 
@@ -9,48 +9,46 @@ using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "Trajet.h"
+#include "TrajetSimple.h"
+
 //------------------------------------------------------------- Constantes
 
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
 
-char* Trajet :: getVilleDepart() const
+char* TrajetSimple::getTransport() const
 {
-  return this->villeDepart;
+	return this->moyenTransport;
 }
 
-char* Trajet :: getVilleArrivee() const
+void TrajetSimple::AfficherTrajet () const
 {
-  return this->villeArrivee;
+	cout << " de " << this->villeDepart << " à " << this->villeArrivee << " en " << this->moyenTransport;
 }
 
 //------------------------------------------------- Surcharge d'opérateurs
 
-
 //-------------------------------------------- Constructeurs - destructeur
 
-Trajet::Trajet ( const char* depart, const char* arrivee )
+TrajetSimple::TrajetSimple (const char* depart,const char* arrive,const char* moyenTransport)
+ : Trajet(depart, arrive)
 {
-  #ifdef MAP
-      cout << "Appel au constructeur de <Trajet>" << endl;
-  #endif
-  this->villeDepart = new char[strlen(depart)+1];
-  this->villeDepart = strcpy(this->villeDepart,depart);
+#ifdef MAP
+    cout << "Appel au constructeur de <TrajetSimple>" << endl;
+#endif
+	this->moyenTransport = new char [strlen(moyenTransport) + 1];
+	strcpy(this->moyenTransport, moyenTransport);
 
-  this->villeArrivee = new char[strlen(arrivee)+1];
-  this->villeArrivee = strcpy(this->villeArrivee,arrivee);
-} //----- Fin de Trajet
+} //----- Fin de TrajetSimple
 
-
-Trajet::~Trajet ( )
+TrajetSimple::~TrajetSimple ( )
 {
-  #ifdef MAP
-      cout << "Appel au destructeur de <Trajet>" << endl;
-  #endif
-  delete[] this->villeDepart;
-  delete[] this->villeArrivee;
-} //----- Fin de ~Trajet
+	#ifdef MAP
+	    cout << "Appel au destructeur de <TrajetSimple>" << endl;
+	#endif
+	delete[] this->moyenTransport ;
+} //----- Fin de ~TrajetSimple
 
 
 //------------------------------------------------------------------ PRIVE

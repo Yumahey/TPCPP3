@@ -1,31 +1,26 @@
 /*************************************************************************
-                           Catalogue  -  Stocke la liste des trajets et
-                           permet de la gerer (ajout, recherche, affichage)
+                           Catalogue  -  description
                              -------------------
-    début                : 19/11/2019
-    copyright            : (C) 2019 par Emma Neiss, Yann Dupont
-    e-mail               : emma.neiss@insa-lyon.fr yann.dupont@insa-lyon.fr
+    début                : novembre 2019
+    copyright            : (C) 2019 par Killian OECHSLIN et Thomas MIGNOT
 *************************************************************************/
 
-//-------- Interface de la classe Catalogue (fichier Catalogue.h) --------
+//---------- Interface de la classe <Catalogue> (fichier Catalogue.h) ----------------
 #if ! defined ( CATALOGUE_H )
 #define CATALOGUE_H
-
 //--------------------------------------------------- Interfaces utilisées
-#include <iostream>
-#include <cstring>
-#include "TS.h"
-#include "TC.h"
+#include "Trajet.h"
+#include "TrajetSimple.h"
+#include "TrajetCompose.h"
 
 //------------------------------------------------------------- Constantes
-static unsigned int TAILLEDEFAUT = 10;
 
 //------------------------------------------------------------------ Types
 
 //------------------------------------------------------------------------
-// La classe Catalogue repertorie les trajets entres par l'utilisateur
-// et met a disposition des services permettant d'en ajouter,
-// de les afficher ou d"effectuer une recherche.
+// Rôle de la classe <Catalogue>
+// Cette classe va servir à retenir les trajets rentrés par l'utilisateur dans un tableau dédié, mais également lui permet d'afficher tous les trajets disponibles
+// ou d'effectuer une recherche (simple ou avancée) pour un voyage donné (défini par une ville de départ et d'arrivée) des trajets qui répondent à la demande
 //------------------------------------------------------------------------
 
 class Catalogue
@@ -35,72 +30,51 @@ class Catalogue
 public:
 //----------------------------------------------------- Méthodes publiques
 
-    void Afficher() const;
-    //
-    // Affiche le contenu du catalogue dans le terminal
-    //
-    // Contrat :
-    //
+	int Ajouter(Trajet* monTrajet);
+	// Mode d'emploi : Permet de rajouter dans le catalogue un trajet (simple ou composé) via passage en paramètre de son pointeur (de type Trajet)
+	//
+	// Contrat : Le trajet pointé par "monTrajet" doit être de type TrajetSimple ou TrajetCompose
 
-    void AjouterTrajet();
-    //
-    // Permet a l'utilisateur d'ajouter un trajet simple ou compose au catalogue
-    // Aucun parametre, la selection est effectuee via l'entree standard
-    //
-    // Contrat :
-    //
+	void AfficherCatalogue() const;
+	// Mode d'emploi : Affiche tous les trajets contenus dans le catalogue
+	//
 
-    void RechercheTrajet() const;
-    //
-    // Permet a l'utilisateur de rechercher les trajets entre deux villes
-    // Aucun parametre, la selection est effectuee via l'entree standard
-    //
-    // Contrat :
-    //
+	void RechercheSimple(char* depart,char* arrivee) const;
+	// Mode d'emploi : Recherche dans le catalogue les trajets qui partent de "depart" et qui arrive directement à "arrivee"
+	//
+
+	void RechercheAvancee(char* depart,char* arrivee) const;
+	// Mode d'emploi : Recherche dans le catalogue les trajets ou combinaisons de trajets qui partent de "depart" et qui arrive à "arrivee"
+	//
+
+	void RechercheRecursive(char* departInitial,char* departActuel,char* arriveeFinale, int* tableTrajetParcouru, int profondeur) const;
+	// Mode d'emploi : Méthode utilisée dans RechercheAvancee qui permet de parcourir en profondeur les trajets pour trouver ceux correspondant à la recherche
+	//
+
+//------------------------------------------------- Surcharge d'opérateurs
+
 
 //-------------------------------------------- Constructeurs - destructeur
-    Catalogue ( const Catalogue & unCatalogue );
-    //
-    // Cree un objet Catalogue par copie
-    // unCatalogue : objet Catalogue a copier
-    //
-    // Contrat :
-    //
+    Catalogue();
+		// Mode d'emploi : Crée le catalogue en initialisant la liste de trajets (avec par défaut une taille de 1)
+		//
 
-    Catalogue ( );
-    //
-    // Cree un objet Catalogue
-    //
-    // Contrat :
-    //
+    virtual ~Catalogue();
+		//
 
-    virtual ~Catalogue ( );
-    //
-    // Detruit l'objet Catalogue
-    //
-    // Contrat :
-    //
 
 //------------------------------------------------------------------ PRIVE
 
 protected:
 //----------------------------------------------------- Méthodes protégées
-    void AggrandirListe();
-    //
-    // Double la taille de listeTrajets (tailleMax et zone memoire
-    // allouee a listeTrajets)
-    // tailleAct reste inchange
-    //
-    // Contrat :
-    //
 
 //----------------------------------------------------- Attributs protégés
-    Trajet ** listeTrajets;
-    unsigned int tailleAct, tailleMax;
+	Trajet** listeTrajetsCatalogue; // tableau qui permet le stockage (grâce à des pointeurs) des trajets présents dans le catalogue
+	int nbTrajetsMax; // taille du tableau listeTrajets
+	int nbTrajetsAct; // nombre de trajets effectivement stockés
 
 };
 
-//-------------------------- Autres définitions dépendantes de <Catalogue>
+//-------------------------------- Autres définitions dépendantes de <Catalogue>
 
 #endif // CATALOGUE_H
-
