@@ -52,6 +52,11 @@ public:
 	// Mode d'emploi : Méthode utilisée dans RechercheAvancee qui permet de parcourir en profondeur les trajets pour trouver ceux correspondant à la recherche
 	//
 	void Lire( std::ifstream & flux,char Typetraj, char* depart, char* arrivee,int indiceD,int indiceF);
+	
+	void SelectionTrajet(std::ofstream& flux,char typeTraj, char* depart, char* arrivee, int indiceD, int indiceF);
+	bool verifVilles(char* departS, char* arriveeS, char* depart, char* arrivee);
+
+
 
 //------------------------------------------------- Surcharge d'opérateurs
 

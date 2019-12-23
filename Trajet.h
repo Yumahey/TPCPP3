@@ -32,6 +32,8 @@ public:
     // Mode d'emploi : permet d'afficher les caractéristiques propres à un trajet (Simple ou Composé)
     //
     // Contrat : doit être redéfinie dans les classes filles TrajetSimple et TrajetCompose
+	
+	virtual void ecriture(std::ofstream& flux)=0;
 
     char* getVilleDepart() const;
     // Mode d'emploi : renvoie la ville de départ du trajet

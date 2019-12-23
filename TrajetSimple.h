@@ -41,6 +41,7 @@ public:
     TrajetSimple (const char* depart,const char* arrive ,const char * moyenTransport);
     // Mode d'emploi : Construit un trajet simple qui contient une ville de départ, une ville d'arrivée et un moyen de transport
     //
+	virtual void ecriture(std::ofstream& flux);
 
       virtual ~TrajetSimple ( );
     // Mode d'emploi : libère la zone mémoire correspondant aux attributs du trajet simple

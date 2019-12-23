@@ -31,6 +31,7 @@ public:
     virtual void AfficherTrajet() const;
     // Mode d'emploi : Affiche l'ensemble des trajets simples, et leur moyen de transport, constituant le trajet composé
     //
+	virtual void ecriture(std::ofstream& flux);
 
 //------------------------------------------------- Surcharge d'opérateurs
 

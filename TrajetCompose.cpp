@@ -6,11 +6,13 @@
 using namespace std;
 #include <iostream>
 #include <cstring>
+#include  <fstream>
 
 //------------------------------------------------------ Include personnel
 #include "Trajet.h"
 #include "TrajetSimple.h"
 #include "TrajetCompose.h"
+
 
 //------------------------------------------------------------- Constantes
 
@@ -32,6 +34,31 @@ void TrajetCompose::AfficherTrajet() const
 		}
 	}
 }
+
+void TrajetCompose::ecriture(ofstream& flux) {
+
+	if (flux) {
+		streambuf* oldCoutBuffer = cout.rdbuf(flux.rdbuf());
+		cout << 'C' << nbTrajets<<' ';
+		cout << listeTrajets[0]->getVilleDepart();
+		for (int i = 0;i < nbTrajets;i++) {
+			TrajetSimple* trajetS = dynamic_cast<TrajetSimple*>(listeTrajets[i]);
+			if (trajetS) {
+				cout <<'|'<< trajetS->getVilleArrivee()<<'|'<< trajetS->getTransport();
+
+			}
+			
+		}
+		cout << endl;
+		cout.rdbuf(oldCoutBuffer);
+	}
+	else {
+		cerr << "Erreur d'ouverture du fichier " << std::endl;
+
+	}
+}
+
+
 //------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------- Constructeurs - destructeur

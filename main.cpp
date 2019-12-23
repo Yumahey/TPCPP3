@@ -7,6 +7,7 @@
 #include "TrajetCompose.h"
 #include "Catalogue.h"
 
+
 using namespace std;
 
 int main()
@@ -20,9 +21,13 @@ int main()
 	char moyenTransport[100]; // stocke le moyen de transport rentré par l'utilisateur
 	char confirmationSuiteTrajet[50]; // permet d'enchaîner plusieurs trajets simples dans le cas de la saisie d'un trajet composé
 	Trajet** trajetRentres=new Trajet*[1]; // stocke les trajets saisis (par défaut le tableau est de taille 1)
-	ifstream test;
-	char ville[] = "";
-	char ville2[] = "Lyon";
+	
+	//Variables pour les fichiers d'entrés et sorties
+	ifstream test;//fichier de lecture
+	ofstream testOut;//fichier de sauvegarde
+	char ville[] = "";//ville depart selection
+	char ville2[] = "";// ville d'arrivee selection
+
 	while(1)
 	{
 		choixMenu=0;
@@ -32,18 +37,19 @@ int main()
 		cout<<"\t(3) Rechercher un parcours (Recherche simple)"<<endl;
 		cout<<"\t(4) Rechercher un parcours (Recherche complexe)"<<endl;
 		cout<<"\t(5) Quitter le programme"<<endl;
-
+		cout << "\t(6) Lecture selective " << endl;
+		cout << "\t(7) Sauvegarde selective " << endl;
 
 		//gestion éventuelle des mauvaises saisies
 		do {
 			valeurRetour=scanf("%d",&choixMenu);
 			getchar(); // enlève du buffer de lecture le "Entrer"
 
-			if(valeurRetour!=1 || choixMenu <=0 || choixMenu>=6) // choix non valide ou la valeur saisie n'est pas un entier
+			if(valeurRetour!=1 || choixMenu <=0 || choixMenu>=8) // choix non valide ou la valeur saisie n'est pas un entier
 			{
 					cout<<"Veuillez entrer un nombre valide et strictement positif et strictement inférieur à 6"<<endl;
 			}
-		} while(valeurRetour!=1 || choixMenu <=0 || choixMenu >=6);
+		} while(valeurRetour!=1 || choixMenu <=0 || choixMenu >=8);
 
 		switch(choixMenu)
 		{
@@ -118,7 +124,8 @@ int main()
 				break;
 
 			case 3:
-				/*cout<<endl<<"Recherche simple de parcours : \n\n";
+
+				cout<<endl<<"Recherche simple de parcours : \n\n";
 				cout<<"Entrez la ville de départ : ";
 				scanf("%s",villeDepart);
 				cout<<"Entrez la ville d'arrivée : ";
@@ -126,13 +133,6 @@ int main()
 				cout<<endl;
 				catalogue.RechercheSimple(villeDepart,villeArrivee);
 				cout<<endl;
-				*/
-				
-				test.open("test.txt");
-				
-
-				catalogue.Lire(test,' ',ville ,ville2 , 0, 1);
-				break;
 
 			case 4:
 				cout<<"Recherche complexe de parcours : "<<endl;
@@ -143,19 +143,30 @@ int main()
 				cout<<endl;
 				catalogue.RechercheAvancee(villeDepart,villeArrivee);
 				cout<<endl;
-				break;
-
 				
+		
 			case 5:
 				// fin du programme, on libère la zone mémoire utilisée
 				delete[] trajetRentres;
+				
 				return 0;
 				break;
 
-			
+			case 6:
+				// lecture selelective
+				test.open("test.txt");
+				catalogue.Lire(test, 'C', ville, ville2, -1, -1);
+				break;
+
+			case 7:
+				//sauvegarde selective
+				testOut.open("testOut.txt", ios::app);
+				catalogue.SelectionTrajet(testOut, 'C', ville, ville2, -1, -1);
+				break;
 
 		}
 
 	}
+
 	return 0;
 }

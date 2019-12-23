@@ -13,6 +13,7 @@ using namespace std;
 #include "TrajetSimple.h"
 #include "TrajetCompose.h"
 
+
 //------------------------------------------------------------- Constantes
 
 //----------------------------------------------------------------- PUBLIC
@@ -22,104 +23,120 @@ using namespace std;
 
 void Catalogue::Lire(ifstream & fic, char typeTraj, char* depart,  char* arrivee, int indiceD, int indiceF) {
 
-	char carlu[30];
-	/*for (int i = 0; i < 10; ++i) {
-		fic.getline(carlu, 30, '|');
-		cout << carlu << endl;
-	}
-	*/
-
 	if (fic) {
-		char SouC;
-		int nbSection;
-		int numLigneCourante = 0;
 
+		char typeTrajetCourant;
+		int numLigneCourante = 0;
 		while (1) {
-			
-			fic >> SouC;
+		
+			fic >> typeTrajetCourant;
 			char departC[30];
 			char arriveeC[30];
 			char espace[1];
 			char mt[30];
 			char nbTrajet;
+			int nbrTrajetASuppr = 0;
+			
 			++numLigneCourante;
+			if (numLigneCourante > indiceF && indiceF!=-1) {
+				break;
+			}
+			if ((indiceD == -1 && indiceF == -1) || (numLigneCourante >= indiceD && numLigneCourante <= indiceF)){
 
-			if (SouC == 'S') {
-				
-
-				if (typeTraj == 'S' || typeTraj == ' ') {
-					fic.getline(espace, 1, ' ');
-					fic.getline(departC, 30, '|');
-					fic.getline(arriveeC, 30, '|');
-					fic.getline(mt, 30, '\n');
+			if (typeTrajetCourant=='S') {
+				fic.getline(espace, 1, ' ');
+				fic.getline(departC, 30, '|');
+				fic.getline(arriveeC, 30, '|');
+				fic.getline(mt, 30, '\n');
+	
+				if (typeTraj=='S' || typeTraj==' ') {
 
 					if ((strcmp(depart, "")==0 && (strcmp(arrivee, "") == 0)) || (strcmp(depart, departC) == 0 && strcmp(arrivee, arriveeC)==0)|| (strcmp(depart, departC) == 0 && strcmp(arrivee, "") == 0)|| (strcmp(depart, "") == 0 && strcmp(arrivee, arriveeC) == 0)) {
 
-						if ((indiceD == -1 && indiceF == -1) || (numLigneCourante >= indiceD && numLigneCourante <= indiceF)) {
 							TrajetSimple* trajetAjout=new TrajetSimple(departC, arriveeC, mt);
 							this->Ajouter(trajetAjout);
-
-						}
 					}
 
 				}
-
-			
-
 			}
 
-			/*if (SouC == 'C') {
-				
-				if (typeTraj == 'C' || typeTraj == ' ') {
-					fic >> nbTrajet;
-					fic.getline(espace, 1, ' ');
-					for (int i = 0;i < nbTrajet - '0';i++) {
-					
-						fic.getline(departC, 30, '|');
-						fic.getline(arriveeC, 30, '|');
-						fic.getline(mt, 30, '\n');
-						TrajetSimple* trajetAjout = new TrajetSimple(departC, arriveeC, mt);
- 
-						if ((strcmp(depart, "") == 0 && (strcmp(arrivee, "") == 0)) || (strcmp(depart, departC) == 0 && strcmp(arrivee, arriveeC) == 0) || (strcmp(depart, departC) == 0 && strcmp(arrivee, "") == 0) || (strcmp(depart, "") == 0 && strcmp(arrivee, arriveeC) == 0)) {
-							if ((indiceD == -1 && indiceF == -1) || (numLigneCourante >= indiceD && numLigneCourante <= indiceF)) {
-								TrajetSimple* trajetAjout = new TrajetSimple(departC, arriveeC, mt);
-								this->Ajouter(trajetAjout);
+			else if (typeTrajetCourant == 'C') {
 
+				char nbTrajStr[30];
+
+				if (typeTraj == 'C' || typeTraj == ' ') {
+
+						fic >> nbTrajStr;
+						nbTrajet = atoi(nbTrajStr);
+						fic.getline(espace, 1, ' ');
+						Trajet** listeTrajet = new Trajet * [nbTrajet];
+						bool cdtAjout = true;
+						char villeAvant[30];
+						char villeApres[30];
+						
+						for ( int i = 0;i < nbTrajet && cdtAjout == true;i++) {
+							if (i == 0) {
+
+								fic.getline(villeAvant, 30, '|');
+								strcpy(departC, villeAvant);
+								if ((strcmp(depart, "") != 0) && (strcmp(depart, departC) != 0)) {
+									cdtAjout = false;
+								}
+							}
+							fic.getline(villeApres, 30, '|');
+
+							if (i == nbTrajet - 1) {
+
+								strcpy(arriveeC, villeApres);
+								if ((strcmp(arrivee, "") != 0) && (strcmp(arrivee, arriveeC) != 0)) {
+									cdtAjout = false;
+								}
+							}
+
+							if (i != nbTrajet - 1) {
+								fic.getline(mt, 30, '|');
+							}
+							else {
+								fic.getline(mt, 30, '\n');
+							}
+
+							listeTrajet[i] = new TrajetSimple(villeAvant, villeApres, mt);
+							++nbrTrajetASuppr;
+							strcpy(villeAvant, villeApres);
+						}
+
+						if (cdtAjout == true) {
+						
+							TrajetCompose* trajetCompo = new TrajetCompose(listeTrajet, nbTrajet);
+							this->Ajouter(trajetCompo);
+						}
+						else {
+							char buffer[500];
+							fic.getline(buffer, 500, '\n');
+							for (int j = 0;j < nbrTrajetASuppr;j++) {
+								delete[] listeTrajet[j];
 							}
 						}
 
-					}
-
+						delete[] listeTrajet;
 				}
-
-
+				else {
+					char buffer[500];
+					fic.getline(buffer, 500, '\n');
+				}
 			}
-			*/
 
-			
+		}
+
+		else {
+			char buffer[500];
+			fic.getline(buffer, 500, '\n');
+
+		}
 
 			if (fic.eof()) {
 				break;
 			}
-
-
-			/*else {
-				fic >> nbSection;
-				Trajet** listeTraj = new Trajet * [nbSection];
-				for (int i = 0; i < nbSection; ++i) {
-					fic >> depart;
-					fic >> arrivee;
-					fic >> mt;
-
-
-
-					listeTraj[i] = new TS(depart, blablabla);
-
-				}
-
-
-			}*/
-
 		}
 	}
 	else {
@@ -127,6 +144,63 @@ void Catalogue::Lire(ifstream & fic, char typeTraj, char* depart,  char* arrivee
 	}
 
 	fic.close();
+}
+
+void Catalogue:: SelectionTrajet(ofstream& fic,char typeTraj, char* depart, char* arrivee, int indiceD, int indiceF) {
+
+	int indiceDebut=1;
+	int indiceFin=this->nbTrajetsAct;
+
+	if (indiceD != -1) {
+		indiceDebut = indiceD;
+	}
+
+	if (indiceF != -1) {
+		indiceFin = indiceF;
+	}
+
+	for (int i = indiceDebut-1;i < indiceFin && i<nbTrajetsAct;i++) {
+		
+		if (verifVilles(depart, arrivee, listeTrajetsCatalogue[i]->getVilleDepart(), listeTrajetsCatalogue[i]->getVilleArrivee()) == true) {
+	
+			if (typeTraj == 'S' || typeTraj==' ') {
+				TrajetSimple* trajetS = dynamic_cast<TrajetSimple*>(listeTrajetsCatalogue[i]);
+				if (trajetS) {
+					trajetS->ecriture(fic);
+				}
+			}
+			 if (typeTraj == 'C' ||typeTraj == ' ') {
+				TrajetCompose* trajetC = dynamic_cast<TrajetCompose*>(listeTrajetsCatalogue[i]);
+				if (trajetC) {
+					trajetC->ecriture(fic);
+					
+				}
+			}
+		}
+	}
+		fic.close();
+}
+
+bool Catalogue:: verifVilles(char* departS,char* arriveeS, char* depart, char* arrivee) {
+	
+	if (strcmp(arriveeS, "") == 0 && strcmp(departS, "") == 0) {
+
+		return true;
+	}
+
+	if (strcmp(depart, departS) == 0 && strcmp(arrivee, arriveeS) == 0) {
+		return true;
+	}
+
+	if (strcmp(depart, departS) == 0 && strcmp(arriveeS,"") == 0) {
+		return true;
+	}
+
+	if (strcmp(arrivee, arriveeS) == 0 && strcmp(departS, "") == 0) {
+		return true;
+	}
+
+	return false;
 
 }
 
@@ -145,7 +219,6 @@ int Catalogue::Ajouter(Trajet* unTrajet) {
 	// ajout du trajet (grâce à son pointeur)
 	this->listeTrajetsCatalogue[this->nbTrajetsAct] = unTrajet;
 	this->nbTrajetsAct++;
-
 	return 1;
 }
 

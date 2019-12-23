@@ -1,3 +1,4 @@
+
 //---------- Réalisation de la classe <TrajetSimple> (fichier TrajetSimple.cpp) ------------
 
 //---------------------------------------------------------------- INCLUDE
@@ -6,10 +7,12 @@
 using namespace std;
 #include <iostream>
 #include <cstring>
+#include  <fstream>
 
 //------------------------------------------------------ Include personnel
 #include "Trajet.h"
 #include "TrajetSimple.h"
+
 
 //------------------------------------------------------------- Constantes
 
@@ -41,6 +44,20 @@ TrajetSimple::TrajetSimple (const char* depart,const char* arrive,const char* mo
 	strcpy(this->moyenTransport, moyenTransport);
 
 } //----- Fin de TrajetSimple
+
+
+void TrajetSimple::ecriture(ofstream& flux) {
+
+	if (flux) {
+		streambuf* oldCoutBuffer = cout.rdbuf(flux.rdbuf());
+		cout << 'S' << ' ' << this->villeDepart << '|' << this->villeArrivee << '|' << this->moyenTransport << endl;
+		cout.rdbuf(oldCoutBuffer);
+	}
+	else {
+		cerr << "Erreur d'ouverture du fichier " << std::endl;
+
+	}
+}
 
 TrajetSimple::~TrajetSimple ( )
 {
