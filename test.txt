@@ -1,0 +1,6 @@
+C2 Ambert|Lyon|Train|Toulouse|Avion
+S Paris|E|Bateau
+C3 Paris|Ambert|Bateau|New York|Avion|E|Avion
+S Lyon|Ambert|Bateau
+C10 Paris|Ambert|Bateau|Toulouse|Train|Montpellier|Nage|Arcachon|Pieds|Tokyo|Avion|A|MA|B|MB|C|MC|D|MD|E|ME
+C1 Lyon|Paris|Train

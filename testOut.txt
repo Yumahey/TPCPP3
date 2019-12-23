@@ -1,0 +1,13 @@
+S AMBERT|CLERMONT|TR1
+S LYON|PARIS|TRAIN
+S TOULOUSE|DUNKERQUE|Bblablacar
+S ARCACHON|CAEN|BATEAU
+C2 TARBES|STRABBOURG|AVION|ROANNE|TROTINETTE
+C2 A|B|C|AMBERT|TROT
+C2 A|B|POP|AMBERT|PIEDS
+C2 A|B|C|AMBERT|TROT
+C2 A|B|POP|AMBERT|PIEDS
+C2 Ambert|Lyon|Train|Toulouse|Avion
+C3 Paris|Ambert|Bateau|New York|Avion|E|Avion
+C10 Paris|Ambert|Bateau|Toulouse|Train|Montpellier|Nage|Arcachon|Pieds|Tokyo|Avion|A|MA|B|MB|C|MC|D|MD|E|ME
+C1 Lyon|Paris|Train
