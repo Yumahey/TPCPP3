@@ -1,2 +1,0 @@
-S depart arrivee mt
-C 3 depart arrivee mt arrivee mt arrivee mt
