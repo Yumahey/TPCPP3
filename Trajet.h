@@ -33,7 +33,9 @@ public:
     //
     // Contrat : doit être redéfinie dans les classes filles TrajetSimple et TrajetCompose
 	
-	virtual void ecriture(std::ofstream& flux)=0;
+	virtual void ecriture(std::ofstream& flux)const=0;
+	// Mode d'emploi : permet d'enregistrer le trajet dans le flux correspondant
+	// Contrat : doit être redéfinie dans les classes filles TrajetSimple et TrajetCompose
 
     char* getVilleDepart() const;
     // Mode d'emploi : renvoie la ville de départ du trajet

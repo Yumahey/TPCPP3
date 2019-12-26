@@ -53,8 +53,8 @@ public:
 	//
 	void Lire( std::ifstream & flux,char Typetraj, char* depart, char* arrivee,int indiceD,int indiceF);
 	
-	void SelectionTrajet(std::ofstream& flux,char typeTraj, char* depart, char* arrivee, int indiceD, int indiceF);
-	bool verifVilles(char* departS, char* arriveeS, char* depart, char* arrivee);
+	void SelectionTrajet(std::ofstream& flux,char typeTraj, char* depart, char* arrivee, int indiceD, int indiceF)const;
+	bool verifVilles(char* departS, char* arriveeS, char* depart, char* arrivee) const;
 
 
 

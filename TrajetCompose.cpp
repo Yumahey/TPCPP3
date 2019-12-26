@@ -35,14 +35,14 @@ void TrajetCompose::AfficherTrajet() const
 	}
 }
 
-void TrajetCompose::ecriture(ofstream& flux) {
+void TrajetCompose::ecriture(ofstream& flux)const {
 
 	if (flux) {
-		streambuf* oldCoutBuffer = cout.rdbuf(flux.rdbuf());
+		streambuf* oldCoutBuffer = cout.rdbuf(flux.rdbuf());//redirection de la sortie sur le flux en parametre
 		cout << 'C' << nbTrajets<<' ';
 		cout << listeTrajets[0]->getVilleDepart();
 		for (int i = 0;i < nbTrajets;i++) {
-			TrajetSimple* trajetS = dynamic_cast<TrajetSimple*>(listeTrajets[i]);
+			TrajetSimple* trajetS = dynamic_cast<TrajetSimple*>(listeTrajets[i]);//tous les trajets du trajet Compose sont Simples a la realisation
 			if (trajetS) {
 				cout <<'|'<< trajetS->getVilleArrivee()<<'|'<< trajetS->getTransport();
 
@@ -50,7 +50,7 @@ void TrajetCompose::ecriture(ofstream& flux) {
 			
 		}
 		cout << endl;
-		cout.rdbuf(oldCoutBuffer);
+		cout.rdbuf(oldCoutBuffer);//redirection de la sortie sur la sortie standard
 	}
 	else {
 		cerr << "Erreur d'ouverture du fichier " << std::endl;

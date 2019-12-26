@@ -46,12 +46,12 @@ TrajetSimple::TrajetSimple (const char* depart,const char* arrive,const char* mo
 } //----- Fin de TrajetSimple
 
 
-void TrajetSimple::ecriture(ofstream& flux) {
+void TrajetSimple::ecriture(ofstream& flux)const  {
 
 	if (flux) {
-		streambuf* oldCoutBuffer = cout.rdbuf(flux.rdbuf());
+		streambuf* oldCoutBuffer = cout.rdbuf(flux.rdbuf());//redirection de la sortie sur le flux en parametre
 		cout << 'S' << ' ' << this->villeDepart << '|' << this->villeArrivee << '|' << this->moyenTransport << endl;
-		cout.rdbuf(oldCoutBuffer);
+		cout.rdbuf(oldCoutBuffer);//redirection sur la sortie standard
 	}
 	else {
 		cerr << "Erreur d'ouverture du fichier " << std::endl;
