@@ -26,7 +26,7 @@ int main()
 	ifstream test;//fichier de lecture
 	ofstream testOut;//fichier de sauvegarde
 	char ville[] = "";//ville depart selection
-	char ville2[] = "";// ville d'arrivee selection
+	char ville2[] = "E";// ville d'arrivee selection
 
 	while(1)
 	{
@@ -155,13 +155,13 @@ int main()
 			case 6:
 				// lecture selelective
 				test.open("test.txt");
-				catalogue.Lire(test, ' ', ville, ville2, -1, -1);
+				catalogue.Lire(test, ' ', ville, ville2, -1,-1);
 				break;
 
 			case 7:
 				//sauvegarde selective
 				testOut.open("testOut.txt", ios::app);
-				catalogue.SelectionTrajet(testOut, ' ', ville, ville2, -1, -1);
+				catalogue.SelectionTrajet(testOut, ' ', ville, ville2, -1, 1);
 				break;
 
 		}

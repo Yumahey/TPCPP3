@@ -8,6 +8,7 @@
 //---------- Interface de la classe <Trajet> (fichier Trajet.h) ----------------
 #if ! defined ( TRAJET_H )
 #define TRAJET_H
+#include <fstream>
 //--------------------------------------------------- Interfaces utilisées
 
 //------------------------------------------------------------- Constantes
@@ -20,7 +21,7 @@
 // permettant de regrouper les caractéristiques communes de ces 2 classes
 //
 //------------------------------------------------------------------------
-
+using namespace std;
 class Trajet
 {
 //----------------------------------------------------------------- PUBLIC
@@ -33,7 +34,7 @@ public:
     //
     // Contrat : doit être redéfinie dans les classes filles TrajetSimple et TrajetCompose
 	
-	virtual void ecriture(std::ofstream& flux)const=0;
+	virtual void ecriture(ofstream& flux)const=0;
 	// Mode d'emploi : permet d'enregistrer le trajet dans le flux correspondant
 	// Contrat : doit être redéfinie dans les classes filles TrajetSimple et TrajetCompose
 
