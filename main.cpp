@@ -10,6 +10,83 @@
 
 using namespace std;
 
+void selectionFichier(char mode, char * nomFile, char & typeTraj, char * villeDepart, char * villeArrivee, int & indiceD, int & indiceF)
+{
+    cout << "Nom du fichier a charger :" << endl;
+    //char nomFile[50];
+    //cin >> nomFile;
+    cin.getline(nomFile, 50, '\n');
+    ifstream fichier(nomFile);
+    char carlu;
+    int nbLignes = 1;
+
+    if(mode == 'L') {
+        while ((carlu = fichier.get()) != EOF) {
+            if (carlu == '\n') {
+                nbLignes++;
+            }
+        }
+        cout << nbLignes << " trajet" << ((nbLignes > 1) ? "s" : "") << " trouve" << ((nbLignes > 1) ? "s" : "")
+             << endl;
+        //fichier.seekg(0, fichier.beg);
+    }
+
+    /*char typeTraj = ' ';
+    char villeDepart[30];
+    char villeArrivee[30];
+    int indiceD = -1;
+    int indiceF = -1;*/
+
+    cout << "Charger les trajets simples (S), les trajets composes (C), ou les deux (autre) ?" << endl;
+    cin >> carlu;
+    cin.ignore(10000, '\n');
+    if((carlu == 'S') || (carlu == 'C'))
+    {
+        typeTraj = carlu;
+    } else {
+        typeTraj = ' ';
+    }
+
+    cout << "Charger les trajets partant de quelle ville ? (Si toutes, taper <<toutes>>)" << endl;
+    cin.getline(villeDepart, 30, '\n');
+    if(strcmp(villeDepart, "toutes") == 0){
+        strcpy(villeDepart, "");
+    }
+
+    cout << "Charger les trajets arrivant a quelle ville ? (Si toutes, taper <<toutes>>)" << endl;
+    cin.getline(villeArrivee, 30, '\n');
+    if(strcmp(villeArrivee, "toutes") == 0){
+        strcpy(villeArrivee, "");
+    }
+
+    cout << "Charger les trajets a partir de quel indice inclus ? (Si a partir du debut, taper -1)" << endl;
+    cin >> indiceD;
+    if(indiceD < 1){
+        indiceD = -1;
+    }
+    if((indiceD > nbLignes-1) && (mode == 'L')){
+        indiceD = nbLignes-1;
+    }
+
+    cout << "Charger les trajets jusqu'a quel indice inclus ? (Si jusqu'a la fin, taper -1)" << endl;
+    cin >> indiceF;
+    if(indiceF < indiceD){
+        indiceF = indiceD;
+    }
+    if((indiceF > nbLignes-1) && (mode == 'L')){
+        indiceF = nbLignes-1;
+    }
+
+    /*cerr << "typeTraj = " << typeTraj << endl;
+    cerr << "villeDepart = " << villeDepart << endl;
+    cerr << "villeArrivee = " << villeArrivee << endl;
+    cerr << "indiceD = " << indiceD << endl;
+    cerr << "indiceF = " << indiceF << endl;*/
+
+    //char word[30];
+    //fic.getline(word, 30, ' ');
+}
+
 int main()
 {
 	Catalogue catalogue;
@@ -25,8 +102,12 @@ int main()
 	//Variables pour les fichiers d'entrés et sorties
 	ifstream test;//fichier de lecture
 	ofstream testOut;//fichier de sauvegarde
-	char ville[] = "";//ville depart selection
-	char ville2[] = "E";// ville d'arrivee selection
+	char nomFile[50];
+    char typeTraj;
+	char ville1[30];//ville depart selection
+	char ville2[30];// ville d'arrivee selection
+	int indiceD;
+	int indiceF;
 
 	while(1)
 	{
@@ -154,14 +235,17 @@ int main()
 
 			case 6:
 				// lecture selelective
-				test.open("test.txt");
-				catalogue.Lire(test, ' ', ville, ville2, -1,-1);
+				selectionFichier('L', nomFile, typeTraj, ville1, ville2, indiceD, indiceF);
+				test.open(nomFile);
+				catalogue.Lire(test, typeTraj, ville1, ville2, indiceD, indiceF);
 				break;
 
 			case 7:
 				//sauvegarde selective
-				testOut.open("testOut.txt", ios::app);
-				catalogue.SelectionTrajet(testOut, ' ', ville, ville2, -1, 1);
+				// print taille catalogue
+                selectionFichier('S', nomFile, typeTraj, ville1, ville2, indiceD, indiceF);
+				testOut.open(nomFile, ios::app);
+				catalogue.SelectionTrajet(testOut, typeTraj, ville1, ville2, indiceD, indiceF);
 				break;
 
 		}
