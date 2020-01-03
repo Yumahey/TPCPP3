@@ -28,10 +28,10 @@ class TrajetCompose : public Trajet
 
 public:
 //----------------------------------------------------- Méthodes publiques
-    virtual void AfficherTrajet() const;
+     virtual void AfficherTrajet() const;
     // Mode d'emploi : Affiche l'ensemble des trajets simples, et leur moyen de transport, constituant le trajet composé
     //
-	virtual void ecriture(std::ofstream& flux)const;
+	   virtual void ecriture(std::ofstream& flux)const;
 	// Mode d'emploi : Ecrit dans le flux passé en paramètre la ligne correspondant au trajet Composé selon le bon format
 	//
 
@@ -55,7 +55,7 @@ protected:
 
 //----------------------------------------------------- Attributs protégés
     Trajet** listeTrajets; // Tableau contenant les trajet simple composant le trajet composé
-	   int nbTrajets; // Entier indiquant le nombre de trajet simple au sein du trajet composé
+	  int nbTrajets; // Entier indiquant le nombre de trajet simple au sein du trajet composé
 
 };
 

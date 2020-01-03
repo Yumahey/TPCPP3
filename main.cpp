@@ -98,12 +98,12 @@ int main()
 	char moyenTransport[100]; // stocke le moyen de transport rentré par l'utilisateur
 	char confirmationSuiteTrajet[50]; // permet d'enchaîner plusieurs trajets simples dans le cas de la saisie d'un trajet composé
 	Trajet** trajetRentres=new Trajet*[1]; // stocke les trajets saisis (par défaut le tableau est de taille 1)
-	
+
 	//Variables pour les fichiers d'entrés et sorties
-	ifstream test;//fichier de lecture
+	ifstream testIn;//fichier de lecture
 	ofstream testOut;//fichier de sauvegarde
 	char nomFile[50];
-    char typeTraj;
+  char typeTraj;
 	char ville1[30];//ville depart selection
 	char ville2[30];// ville d'arrivee selection
 	int indiceD;
@@ -117,9 +117,9 @@ int main()
 		cout<<"\t(2) Ajouter un trajet au catalogue"<<endl;
 		cout<<"\t(3) Rechercher un parcours (Recherche simple)"<<endl;
 		cout<<"\t(4) Rechercher un parcours (Recherche complexe)"<<endl;
-		cout<<"\t(5) Quitter le programme"<<endl;
-		cout << "\t(6) Lecture selective " << endl;
-		cout << "\t(7) Sauvegarde selective " << endl;
+		cout<< "\t(5) Lecture selective " << endl;
+		cout<< "\t(6) Sauvegarde selective " << endl;
+    cout<<"\t(7) Quitter le programme"<<endl;
 
 		//gestion éventuelle des mauvaises saisies
 		do {
@@ -224,29 +224,29 @@ int main()
 				cout<<endl;
 				catalogue.RechercheAvancee(villeDepart,villeArrivee);
 				cout<<endl;
-				
-		
+
 			case 5:
-				// fin du programme, on libère la zone mémoire utilisée
-				delete[] trajetRentres;
-				
-				return 0;
+				// lecture selelective
+				selectionFichier('L', nomFile, typeTraj, ville1, ville2, indiceD, indiceF);
+				testIn.open(nomFile);
+				catalogue.Lire(testIn, typeTraj, ville1, ville2, indiceD, indiceF);
 				break;
 
 			case 6:
-				// lecture selelective
-				selectionFichier('L', nomFile, typeTraj, ville1, ville2, indiceD, indiceF);
-				test.open(nomFile);
-				catalogue.Lire(test, typeTraj, ville1, ville2, indiceD, indiceF);
-				break;
-
-			case 7:
 				//sauvegarde selective
 				// print taille catalogue
-                selectionFichier('S', nomFile, typeTraj, ville1, ville2, indiceD, indiceF);
+        selectionFichier('S', nomFile, typeTraj, ville1, ville2, indiceD, indiceF);
 				testOut.open(nomFile, ios::app);
 				catalogue.SelectionTrajet(testOut, typeTraj, ville1, ville2, indiceD, indiceF);
 				break;
+
+      case 7:
+          // fin du programme, on libère la zone mémoire utilisée
+        delete[] trajetRentres;
+
+        return 0;
+        break;
+
 
 		}
 

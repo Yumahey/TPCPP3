@@ -8,12 +8,16 @@
 //---------- Interface de la classe <Catalogue> (fichier Catalogue.h) ----------------
 #if ! defined ( CATALOGUE_H )
 #define CATALOGUE_H
+
+
 //--------------------------------------------------- Interfaces utilisées
+#include <iostream>
+#include <fstream>
+
 #include "Trajet.h"
 #include "TrajetSimple.h"
 #include "TrajetCompose.h"
-#include <iostream>
-#include <fstream>
+
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
@@ -51,10 +55,18 @@ public:
 	void RechercheRecursive(char* departInitial,char* departActuel,char* arriveeFinale, int* tableTrajetParcouru, int profondeur) const;
 	// Mode d'emploi : Méthode utilisée dans RechercheAvancee qui permet de parcourir en profondeur les trajets pour trouver ceux correspondant à la recherche
 	//
+
 	void Lire( std::ifstream & flux,char Typetraj, char* depart, char* arrivee,int indiceD,int indiceF);
-	
+	// Mode d'emploi : Méthode permettant de charger les trajets en fonction de tous les critères de sélection passés en paramètre
+	//
+
 	void SelectionTrajet(std::ofstream& flux,char typeTraj, char* depart, char* arrivee, int indiceD, int indiceF)const;
+	// Mode d'emploi : Méthode permettant de sauvegarder les trajets en fonction de tous les critères de sélection passés en paramètre
+	//
+
 	bool verifVilles(char* departS, char* arriveeS, char* depart, char* arrivee) const;
+	// Mode d'emploi : Méthode renvoyant un booléen pour savoir si la ville de départ ou d'arrivée en cours correspond à la sélection
+	//
 
 
 

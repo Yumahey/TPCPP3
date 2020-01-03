@@ -34,8 +34,7 @@ void TrajetSimple::AfficherTrajet () const
 
 //-------------------------------------------- Constructeurs - destructeur
 
-TrajetSimple::TrajetSimple (const char* depart,const char* arrive,const char* moyenTransport)
- : Trajet(depart, arrive)
+TrajetSimple::TrajetSimple (const char* depart,const char* arrive,const char* moyenTransport): Trajet(depart, arrive)
 {
 #ifdef MAP
     cout << "Appel au constructeur de <TrajetSimple>" << endl;
@@ -46,16 +45,18 @@ TrajetSimple::TrajetSimple (const char* depart,const char* arrive,const char* mo
 } //----- Fin de TrajetSimple
 
 
-void TrajetSimple::ecriture(ofstream& flux)const  {
+void TrajetSimple::ecriture(ofstream& flux)const
+{
 
-	if (flux) {
+	if (flux)
+	{
 		streambuf* oldCoutBuffer = cout.rdbuf(flux.rdbuf());//redirection de la sortie sur le flux en parametre
 		cout << 'S' << ' ' << this->villeDepart << '|' << this->villeArrivee << '|' << this->moyenTransport << endl;
 		cout.rdbuf(oldCoutBuffer);//redirection sur la sortie standard
 	}
-	else {
+	else
+	{
 		cerr << "Erreur d'ouverture du fichier " << std::endl;
-
 	}
 }
 
