@@ -22,12 +22,12 @@ using namespace std;
 
 char* TrajetSimple::getTransport() const
 {
-	return this->moyenTransport;
+    return this->moyenTransport;
 }
 
 void TrajetSimple::AfficherTrajet () const
 {
-	cout << " de " << this->villeDepart << " à " << this->villeArrivee << " en " << this->moyenTransport;
+    cout << " de " << this->villeDepart << " à " << this->villeArrivee << " en " << this->moyenTransport;
 }
 
 //------------------------------------------------- Surcharge d'opérateurs
@@ -39,8 +39,8 @@ TrajetSimple::TrajetSimple (const char* depart,const char* arrive,const char* mo
 #ifdef MAP
     cout << "Appel au constructeur de <TrajetSimple>" << endl;
 #endif
-	this->moyenTransport = new char [strlen(moyenTransport) + 1];
-	strcpy(this->moyenTransport, moyenTransport);
+    this->moyenTransport = new char [strlen(moyenTransport) + 1];
+    strcpy(this->moyenTransport, moyenTransport);
 
 } //----- Fin de TrajetSimple
 
@@ -48,24 +48,24 @@ TrajetSimple::TrajetSimple (const char* depart,const char* arrive,const char* mo
 void TrajetSimple::ecriture(ofstream& flux)const
 {
 
-	if (flux)
-	{
-		streambuf* oldCoutBuffer = cout.rdbuf(flux.rdbuf());//redirection de la sortie sur le flux en parametre
-		cout << 'S' << ' ' << this->villeDepart << '|' << this->villeArrivee << '|' << this->moyenTransport << endl;
-		cout.rdbuf(oldCoutBuffer);//redirection sur la sortie standard
-	}
-	else
-	{
-		cerr << "Erreur d'ouverture du fichier " << std::endl;
-	}
+    if (flux)
+    {
+        streambuf* oldCoutBuffer = cout.rdbuf(flux.rdbuf());//redirection de la sortie sur le flux en parametre
+        cout << 'S' << ' ' << this->villeDepart << '|' << this->villeArrivee << '|' << this->moyenTransport << endl;
+        cout.rdbuf(oldCoutBuffer);//redirection sur la sortie standard
+    }
+    else
+    {
+        cerr << "Erreur d'ouverture du fichier " << std::endl;
+    }
 }
 
 TrajetSimple::~TrajetSimple ( )
 {
-	#ifdef MAP
-	    cout << "Appel au destructeur de <TrajetSimple>" << endl;
-	#endif
-	delete[] this->moyenTransport ;
+#ifdef MAP
+    cout << "Appel au destructeur de <TrajetSimple>" << endl;
+#endif
+    delete[] this->moyenTransport ;
 } //----- Fin de ~TrajetSimple
 
 

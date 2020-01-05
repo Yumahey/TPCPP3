@@ -14,13 +14,11 @@ using namespace std;
 #include "TrajetSimple.h"
 #include "TrajetCompose.h"
 
-
 //------------------------------------------------------------- Constantes
 
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
-
 
 void Catalogue::Lire(ifstream &fic, char typeTraj, char *depart, char *arrivee, int indiceD, int indiceF)
 {
@@ -73,7 +71,7 @@ void Catalogue::Lire(ifstream &fic, char typeTraj, char *depart, char *arrivee, 
                         }
                     }
                 } else if (typeTrajetCourant == 'C')
-                  {
+                {
                     //cas du trajet Compose
                     char nbTrajStr[30];
 
@@ -155,7 +153,7 @@ void Catalogue::Lire(ifstream &fic, char typeTraj, char *depart, char *arrivee, 
 
                         }
 
-                      delete[] listeTrajet;
+                        delete[] listeTrajet;
 
                     }
                     else
@@ -197,7 +195,8 @@ void Catalogue::Lire(ifstream &fic, char typeTraj, char *depart, char *arrivee, 
     fic.close();
 }
 
-void Catalogue::SelectionTrajet(ofstream &fic, char typeTraj, char *depart, char *arrivee, int indiceD, int indiceF) const
+void Catalogue::SelectionTrajet
+(ofstream &fic, char typeTraj, char *depart, char *arrivee, int indiceD, int indiceF) const
 {
     int indiceDebut = 1;//par defaut on parcourt tous les trajets du catalogue
     int indiceFin = this->nbTrajetsAct;
@@ -315,10 +314,10 @@ void Catalogue::RechercheAvancee(char *depart, char *arrivee) const
 
 }
 
-void
-Catalogue::RechercheRecursive(char *departInitial, char *departActuel, char *arriveeFinale, int *tableTrajetParcouru,int profondeur) const
+void Catalogue::RechercheRecursive
+(char *departInitial, char *departActuel, char *arriveeFinale, int *tableTrajetParcouru,int profondeur) const
 {
-  // Algorithme : recherche en backtracking qui parcourt en profondeur tous les trajets possibles et retient ceux qui partent de "departInitial" et arrivent à "arriveeFinale"
+    // Algorithme : recherche en backtracking qui parcourt en profondeur tous les trajets possibles et retient ceux qui partent de "departInitial" et arrivent à "arriveeFinale"
     for (int i = 0; i < this->nbTrajetsAct; i++) {
         if (strcmp(this->listeTrajetsCatalogue[i]->getVilleArrivee(), departInitial) !=
             0) // permet de ne pas revenir au point de départ ce qui ne servirait à rien dans la recherche
@@ -369,7 +368,6 @@ void Catalogue::AfficherCatalogue() const
 
 //------------------------------------------------- Surcharge d'opérateurs
 
-
 //-------------------------------------------- Constructeurs - destructeur
 Catalogue::Catalogue()
 {
@@ -392,7 +390,6 @@ Catalogue::~Catalogue()
     }
     delete[] this->listeTrajetsCatalogue;
 } //----- Fin de ~Catalogue
-
 
 //------------------------------------------------------------------ PRIVE
 

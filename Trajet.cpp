@@ -18,12 +18,12 @@ using namespace std;
 
 char* Trajet :: getVilleDepart() const
 {
-  return this->villeDepart;
+    return this->villeDepart;
 }
 
 char* Trajet :: getVilleArrivee() const
 {
-  return this->villeArrivee;
+    return this->villeArrivee;
 }
 
 //------------------------------------------------- Surcharge d'opérateurs
@@ -33,24 +33,24 @@ char* Trajet :: getVilleArrivee() const
 
 Trajet::Trajet ( const char* depart, const char* arrivee )
 {
-  #ifdef MAP
-      cout << "Appel au constructeur de <Trajet>" << endl;
-  #endif
-  this->villeDepart = new char[strlen(depart)+1];
-  this->villeDepart = strcpy(this->villeDepart,depart);
+#ifdef MAP
+    cout << "Appel au constructeur de <Trajet>" << endl;
+#endif
+    this->villeDepart = new char[strlen(depart)+1];
+    this->villeDepart = strcpy(this->villeDepart,depart);
 
-  this->villeArrivee = new char[strlen(arrivee)+1];
-  this->villeArrivee = strcpy(this->villeArrivee,arrivee);
+    this->villeArrivee = new char[strlen(arrivee)+1];
+    this->villeArrivee = strcpy(this->villeArrivee,arrivee);
 } //----- Fin de Trajet
 
 
 Trajet::~Trajet ( )
 {
-  #ifdef MAP
-      cout << "Appel au destructeur de <Trajet>" << endl;
-  #endif
-  delete[] this->villeDepart;
-  delete[] this->villeArrivee;
+#ifdef MAP
+    cout << "Appel au destructeur de <Trajet>" << endl;
+#endif
+    delete[] this->villeDepart;
+    delete[] this->villeArrivee;
 } //----- Fin de ~Trajet
 
 
