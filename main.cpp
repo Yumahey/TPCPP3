@@ -77,7 +77,7 @@ void selectionFichier(char mode, char * nomFile, char & typeTraj, char * villeDe
 
 int main()
 {
-	Catalogue catalogue;
+Catalogue catalogue;
 	int choixMenu=0; // stocke le choix de l'utilisateur
 	//int valeurRetour=0; // permet de vérifier que l'utilisateur a bien rentré un chiffre valide
 	int nbTrajetRentre = 0; // permet de connaître le nombre de trajets simples saisis en une seule fois
@@ -91,7 +91,7 @@ int main()
 	ifstream testIn;//fichier de lecture
 	ofstream testOut;//fichier de sauvegarde
 	char nomFile[50];
-  char typeTraj;
+  	char typeTraj;
 	char ville1[30];//ville depart selection
 	char ville2[30];// ville d'arrivee selection
 	int indiceD;
@@ -255,3 +255,4 @@ int main()
 
 	return 0;
 }
+
