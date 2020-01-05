@@ -206,7 +206,7 @@ Catalogue catalogue;
 
         cin.getline(villeDepart,30,'\n');
 
-				cout<<"Entrez la ville d'arrivée : ";
+				cout<<" Entrez la ville d'arrivée : ";
 
         cin.getline(villeArrivee,30,'\n');
 				cout<<endl;
@@ -219,7 +219,7 @@ Catalogue catalogue;
 				cout<<"Entrez la ville de départ : ";
 
         cin.getline(villeDepart,30,'\n');
-				cout<<endl<<"Entrez la ville d'arrivée : ";
+				cout<<endl<<" Entrez la ville d'arrivée : ";
 
         cin.getline(villeArrivee,30,'\n');
 				cout<<endl;
