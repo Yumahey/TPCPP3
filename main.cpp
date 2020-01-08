@@ -18,79 +18,92 @@ using namespace std;
 // du fichier (on prend 50), de meme pour villeDepart et villeArrivee (on prend 30)
 void selectionFichier(char mode, char * nomFile, char & typeTraj, char * villeDepart, char * villeArrivee, int & indiceD, int & indiceF)
 {
-    cout << "Nom du fichier a charger :" << endl;
-    //char nomFile[50];
-    //cin >> nomFile;
+    cout << "Nom du fichier a charger/sauvegarder :" << endl;
+
     cin.getline(nomFile, 50, '\n');
     ifstream fichier(nomFile);
     char carlu;
     int nbLignes = 1;
+	char reponse[30];
 
-    if(mode == 'L') {
-        while ((carlu = fichier.get()) != EOF) {
-            if (carlu == '\n') {
+    if(mode == 'L') 
+    {
+        while ((carlu = fichier.get()) != EOF) 
+        {
+            if (carlu == '\n') 
+            {
                 nbLignes++;
             }
         }
         cout << nbLignes << " trajet" << ((nbLignes > 1) ? "s" : "") << " trouve" << ((nbLignes > 1) ? "s" : "")
              << endl;
-        //fichier.seekg(0, fichier.beg);
+      
     }
 
-    /*char typeTraj = ' ';
-    char villeDepart[30];
-    char villeArrivee[30];
-    int indiceD = -1;
-    int indiceF = -1;*/
 
-    cout << "Charger les trajets simples (S), les trajets composes (C), ou les deux (autre) ?" << endl;
-    cin >> carlu;
-    cin.ignore(10000, '\n');
-    if((carlu == 'S') || (carlu == 'C'))
-    {
-        typeTraj = carlu;
-    } else {
-        typeTraj = ' ';
-    }
+  cout << "Charger les trajets simples (taper S), les trajets composes (taper C), ou les deux (appuyer directement sur touche Entrée) ?" << endl;
 
-    cout << "Charger les trajets partant de quelle ville ? (Si toutes, taper <<toutes>>)" << endl;
+	cin.getline(reponse,30,'\n');
+
+	if(strcmp(reponse,"S")==0 || strcmp(reponse,"s")==0)
+	{
+		typeTraj='S';
+	}
+
+	else if(strcmp(reponse,"C")==0 || strcmp(reponse,"c")==0)
+	{
+		typeTraj='C';
+	}
+	else
+	{
+		typeTraj=' ';
+
+	}
+
+
+
+    cout << "Charger les trajets partant de quelle ville ? (Si toutes, appuyer directement sur touche Entrée)" << endl;
     cin.getline(villeDepart, 30, '\n');
-    if(strcmp(villeDepart, "toutes") == 0){
+    if(strcmp(villeDepart, "") == 0)
+    {
         strcpy(villeDepart, "");
     }
 
-    cout << "Charger les trajets arrivant a quelle ville ? (Si toutes, taper <<toutes>>)" << endl;
+    cout << "Charger les trajets arrivant a quelle ville ? (Si toutes, appuyer directement sur touche Entrée)" << endl;
     cin.getline(villeArrivee, 30, '\n');
-    if(strcmp(villeArrivee, "toutes") == 0){
+    if(strcmp(villeArrivee, "") == 0)
+    {
         strcpy(villeArrivee, "");
     }
 
-    cout << "Charger les trajets a partir de quel indice inclus ? (Si a partir du debut, taper -1)" << endl;
-    cin >> indiceD;
-    if(indiceD < 1){
-        indiceD = -1;
-    }
-    if((indiceD > nbLignes-1) && (mode == 'L')){
-        indiceD = nbLignes-1;
-    }
+    cout << "Charger les trajets a partir de quel indice inclus ? (Si a partir du debut,appuyer directement sur touche Entrée)" << endl
+    cin.getline(reponse,30,'\n');
 
-    cout << "Charger les trajets jusqu'a quel indice inclus ? (Si jusqu'a la fin, taper -1)" << endl;
-    cin >> indiceF;
-    if(indiceF < indiceD){
-        indiceF = indiceD;
-    }
-    if((indiceF > nbLignes-1) && (mode == 'L')){
-        indiceF = nbLignes-1;
-    }
+	if(strcmp(reponse,"")==0)
+	{
+		indiceD=-1;
+	}
+	else
+	{
+		indiceD=atoi(reponse);
 
-    /*cerr << "typeTraj = " << typeTraj << endl;
-    cerr << "villeDepart = " << villeDepart << endl;
-    cerr << "villeArrivee = " << villeArrivee << endl;
-    cerr << "indiceD = " << indiceD << endl;
-    cerr << "indiceF = " << indiceF << endl;*/
+	}
 
-    //char word[30];
-    //fic.getline(word, 30, ' ');
+  cout << "Charger les trajets jusqu'a quel indice inclus ? (Si jusqu'a la fin, appuyer directement sur touche Entrée)" << endl;
+
+	cin.getline(reponse,30,'\n');
+
+	if(strcmp(reponse,"")==0)
+	{
+		indiceF=-1;
+	}
+	else
+	{
+		indiceF=atoi(reponse);
+
+	}
+
+
 }
 
 int main()
