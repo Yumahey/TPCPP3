@@ -34,7 +34,11 @@ int selectionFichier(char mode, char * nomFile, char & typeTraj, char * villeDep
             fichierVide = 0;
             if (carlu == '\n')
             {
-                nbLignes++;
+                carlu = fichier.get();
+                if((carlu == 'S') || (carlu == 'C'))
+                {
+                    nbLignes++;
+                }
             }
         }
         if(fichierVide == 1)
@@ -111,7 +115,6 @@ int main()
 {
     Catalogue catalogue;
     int choixMenu=0; // stocke le choix de l'utilisateur
-    int valeurRetour=0; // permet de vérifier que l'utilisateur a bien rentré un chiffre valide
     int nbTrajetRentre = 0; // permet de connaître le nombre de trajets simples saisis en une seule fois
     char villeDepart[100]; // stocke la ville de départ rentrée par l'utilisateur
     char villeArrivee[100]; // stocke la ville d'arrivée rentrée par l'utilisateur
@@ -276,7 +279,7 @@ int main()
                     cout << endl << "Le catalogue est vide" << endl << endl;
                     break;
                 }
-                cout << "Le catalogue contient " << catalogue.GetNbTrajetsAct() << "trajets." << endl;
+                cout << "Le catalogue contient " << catalogue.GetNbTrajetsAct() << " trajets." << endl;
                 selectionFichier('S', nomFile, typeTraj, ville1, ville2, indiceD, indiceF);
                 testOut.open(nomFile, ios::app);
                 catalogue.SelectionTrajet(testOut, typeTraj, ville1, ville2, indiceD, indiceF);

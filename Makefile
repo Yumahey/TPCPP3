@@ -1,6 +1,6 @@
 
 OBJ=Trajet.o TrajetSimple.o TrajetCompose.o Catalogue.o main.o
-EXEC=TP2
+EXEC=TP3
 FLAGS=-g -o0 -ansi -pedantic -Wall -std=c++11
 DEFINES=
 
@@ -10,7 +10,7 @@ clear :
 	rm $(OBJ) $(EXEC)
 
 run : $(EXEC)
-	./TP2
+	./TP3
 
 %.o : %.cpp %.h
 	g++ -c $(DEFINES) $<
