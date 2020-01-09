@@ -16,7 +16,7 @@ using namespace std;
 //
 // Contrat : mode doit valoir 'L' ou 'S', nomFile doit pointer vers un tableau suffisament grand pour stocker le nom
 // du fichier (on prend 50), de meme pour villeDepart et villeArrivee (on prend 30)
-void selectionFichier(char mode, char * nomFile, char & typeTraj, char * villeDepart, char * villeArrivee, int & indiceD, int & indiceF)
+int selectionFichier(char mode, char * nomFile, char & typeTraj, char * villeDepart, char * villeArrivee, int & indiceD, int & indiceF)
 {
     cout << "Nom du fichier a charger/sauvegarder :" << endl;
     cin.getline(nomFile, 50, '\n');
@@ -28,12 +28,19 @@ void selectionFichier(char mode, char * nomFile, char & typeTraj, char * villeDe
     // si on est en mode lecture, on compte le nombre de lignes du fichier et on affiche
     if(mode == 'L')
     {
+        char fichierVide = 1;
         while ((carlu = fichier.get()) != EOF)
         {
+            fichierVide = 0;
             if (carlu == '\n')
             {
                 nbLignes++;
             }
+        }
+        if(fichierVide == 1)
+        {
+            cout << "Fichier vide" << endl;
+            return 1; // return de code d'erreur
         }
         cout << nbLignes << " trajet" << ((nbLignes > 1) ? "s" : "") << " trouve" << ((nbLignes > 1) ? "s" : "")
              << endl;
@@ -95,7 +102,9 @@ void selectionFichier(char mode, char * nomFile, char & typeTraj, char * villeDe
         indiceF=atoi(reponse);
     }
 
-    // pas besoin de retour, les valeurs sont stockees dans les variables passees en parametre par reference/pointeur
+    // le retour ne sert qu'a savoir si l'operation s'est bien passee,
+    // les valeurs sont stockees dans les variables passees en parametre par reference/pointeur
+    return 0;
 }
 
 int main()
@@ -236,6 +245,7 @@ int main()
                 cout << endl;
                 catalogue.RechercheSimple(villeDepart,villeArrivee);
                 cout << endl;
+                break;
 
             case 4: // recherche complexe
                 if(catalogue.GetNbTrajetsAct() == 0)
@@ -251,11 +261,13 @@ int main()
                 cout << endl;
                 catalogue.RechercheAvancee(villeDepart,villeArrivee);
                 cout << endl;
+                break;
 
             case 5: // lecture selelective d'un fichier
-                selectionFichier('L', nomFile, typeTraj, ville1, ville2, indiceD, indiceF);
-                testIn.open(nomFile);
-                catalogue.Lire(testIn, typeTraj, ville1, ville2, indiceD, indiceF);
+                if(selectionFichier('L', nomFile, typeTraj, ville1, ville2, indiceD, indiceF) == 0) {
+                    testIn.open(nomFile);
+                    catalogue.Lire(testIn, typeTraj, ville1, ville2, indiceD, indiceF);
+                }
                 break;
 
             case 6: //sauvegarde selective dans un fichier

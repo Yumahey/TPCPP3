@@ -22,13 +22,14 @@ using namespace std;
 
 void Catalogue::Lire(ifstream &fic, char typeTraj, char *depart, char *arrivee, int indiceD, int indiceF)
 {
-    if (fic)
+    if (fic) // si le flux est valide
     {
         char typeTrajetCourant;
         int numLigneCourante = 0;
-        while (1)
+        while (1) // parcours d'une ligne par tour de boucle
         {
-            typeTrajetCourant = 'X';// valeur initiale différente des 2 valeurs possibles afin qu'il n'y ait pas lecture des lignes vides après les trajets s'il y en a
+            typeTrajetCourant = 'X';// valeur initiale différente des 2 valeurs possibles afin
+            // qu'il n'y ait pas lecture des lignes vides après les trajets s'il y en a
             fic >> typeTrajetCourant;
             char departC[30];//depart trajet en cours
             char arriveeC[30];//arrivee trajet en cours
@@ -37,59 +38,49 @@ void Catalogue::Lire(ifstream &fic, char typeTraj, char *depart, char *arrivee, 
             int nbrTrajetASuppr = 0;
             ++numLigneCourante;
 
-            if (numLigneCourante > indiceF && indiceF != -1)
+            if (numLigneCourante > indiceF && indiceF != -1) //si on depasse l'indice max de selection
             {
-                //si on depasse l'indice max de selection
                 break;
             }
+            // si la ligne est dans l'intervalle choisi
             if ((indiceD == -1 && indiceF == -1) || (numLigneCourante >= indiceD && numLigneCourante <= indiceF))
             {
-                cerr << "1" << endl;
-
-                if (typeTrajetCourant == 'S')
+                if (typeTrajetCourant == 'S') // si le trajet lu est un trajet simple
                 {
-                    //cas du trajet Simple
                     fic.getline(espace, 1, ' ');
                     fic.getline(departC, 30, '|');
                     fic.getline(arriveeC, 30, '|');
                     fic.getline(mt, 30, '\n');
 
-                    if (typeTraj == 'S' || typeTraj == ' ')
+                    if (typeTraj == 'S' || typeTraj == ' ') // si on cherche les trajets simples ou tous types
                     {
-                        cerr << "2" << endl;
-
                         if ((strcmp(depart, "") == 0 && (strcmp(arrivee, "") == 0)) ||
                             (strcmp(depart, departC) == 0 && strcmp(arrivee, arriveeC) == 0) ||
                             (strcmp(depart, departC) == 0 && strcmp(arrivee, "") == 0) ||
                             (strcmp(depart, "") == 0 && strcmp(arrivee, arriveeC) == 0))
                         {
-                            cerr << "3" << endl;
                             //si les criteres correspondent a la selection, on ajoute le trajet Simple lu au catalogue
                             TrajetSimple *trajetAjout = new TrajetSimple(departC, arriveeC, mt);
                             this->Ajouter(trajetAjout);
 
                         }
                     }
-                } else if (typeTrajetCourant == 'C')
+                } else if (typeTrajetCourant == 'C') // si le trajet lu est un trajet compose
                 {
-                    //cas du trajet Compose
                     char nbTrajStr[30];
 
-                    if (typeTraj == 'C' || typeTraj == ' ')
+                    if (typeTraj == 'C' || typeTraj == ' ') // si on cherche les trajets composes ou tous types
                     {
-
                         fic >> nbTrajStr;
                         int nbTrajetCourant = atoi(nbTrajStr); //lecture du nombre de trajets composant le Trajet Compose
                         fic.getline(espace, 1, ' ');
 
                         Trajet **listeTrajet = new Trajet *[nbTrajetCourant];//liste de pointeurs de trajet stockant les trajets simples du trajet Compose
-
                         bool cdtAjout = true;
-
                         char villeAvant[30];//buffers pour accueillir les villes du trajet Compose du fichier
                         char villeApres[30];
 
-                        for (int i = 0; i < nbTrajetCourant && cdtAjout == true; i++)
+                        for (int i = 0; i < nbTrajetCourant && cdtAjout == true; i++) // pour chaque sous-trajet
                         {
                             //parcours du trajetCompose en cours de lecture
                             if (i == 0)
@@ -143,16 +134,11 @@ void Catalogue::Lire(ifstream &fic, char typeTraj, char *depart, char *arrivee, 
                             //pas d'ajout du trajet au catalogue car ne correspond pas a la selection
                             char buffer[500];
                             fic.getline(buffer, 500, '\n');//on passse a la ligne suivante
-
                             for (int j = 0; j < nbrTrajetASuppr; j++)
                             {
-
                                 delete listeTrajet[j];// on vide l'espace memoire cree inutilement
-
                             }
-
                         }
-
                         delete[] listeTrajet;
 
                     }
@@ -170,14 +156,12 @@ void Catalogue::Lire(ifstream &fic, char typeTraj, char *depart, char *arrivee, 
                     fic.getline(buffer, 500, '\n');
                 }
 
-
             }
             else
             {
                 //pas d'ajout du trajet au catalogue car ne correspond pas a la selection
                 char buffer[500];
                 fic.getline(buffer, 500, '\n');
-
             }
 
             if (fic.eof())
@@ -196,7 +180,7 @@ void Catalogue::Lire(ifstream &fic, char typeTraj, char *depart, char *arrivee, 
 }
 
 void Catalogue::SelectionTrajet
-(ofstream &fic, char typeTraj, char *depart, char *arrivee, int indiceD, int indiceF) const
+        (ofstream &fic, char typeTraj, char *depart, char *arrivee, int indiceD, int indiceF) const
 {
     int indiceDebut = 1;//par defaut on parcourt tous les trajets du catalogue
     int indiceFin = this->nbTrajetsAct;
@@ -315,7 +299,7 @@ void Catalogue::RechercheAvancee(char *depart, char *arrivee) const
 }
 
 void Catalogue::RechercheRecursive
-(char *departInitial, char *departActuel, char *arriveeFinale, int *tableTrajetParcouru,int profondeur) const
+        (char *departInitial, char *departActuel, char *arriveeFinale, int *tableTrajetParcouru,int profondeur) const
 {
     // Algorithme : recherche en backtracking qui parcourt en profondeur tous les trajets possibles et retient ceux qui partent de "departInitial" et arrivent à "arriveeFinale"
     for (int i = 0; i < this->nbTrajetsAct; i++) {
