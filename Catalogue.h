@@ -68,7 +68,9 @@ public:
     // Mode d'emploi : Méthode renvoyant un booléen pour savoir si la ville de départ ou d'arrivée en cours correspond à la sélection
     //
 
-
+    int GetNbTrajetsAct() const;
+    // Mode d'emploi : Méthode renvoyant la taille actuelle du catalogue
+    //
 
 //------------------------------------------------- Surcharge d'opérateurs
 
@@ -91,7 +93,6 @@ protected:
     Trajet** listeTrajetsCatalogue; // tableau qui permet le stockage (grâce à des pointeurs) des trajets présents dans le catalogue
     int nbTrajetsMax; // taille du tableau listeTrajets
     int nbTrajetsAct; // nombre de trajets effectivement stockés
-
 };
 
 //-------------------------------- Autres définitions dépendantes de <Catalogue>

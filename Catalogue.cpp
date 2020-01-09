@@ -366,6 +366,11 @@ void Catalogue::AfficherCatalogue() const
     }
 }
 
+int Catalogue::GetNbTrajetsAct() const
+{
+    return this->nbTrajetsAct;
+}
+
 //------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------- Constructeurs - destructeur
